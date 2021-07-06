@@ -1,20 +1,22 @@
-import { extendTheme } from '@chakra-ui/react'
-import { createBreakpoints } from '@chakra-ui/theme-tools'
-
-const fonts = { mono: `'Menlo', monospace` }
+import { extendTheme } from "@chakra-ui/react";
+import { createBreakpoints } from "@chakra-ui/theme-tools";
+import "@fontsource/syne";
 
 const breakpoints = createBreakpoints({
-  sm: '40em',
-  md: '52em',
-  lg: '64em',
-  xl: '80em',
-})
+  sm: "40em",
+  md: "52em",
+  lg: "64em",
+  xl: "80em",
+});
 
 const theme = extendTheme({
-  colors: {
-    black: '#16161D',
+  fonts: {
+    heading: "Syne",
+    body: "Syne",
   },
-  fonts,
+  colors: {
+    black: "#16161D",
+  },
   breakpoints,
   icons: {
     logo: {
@@ -33,9 +35,9 @@ const theme = extendTheme({
           />
         </svg>
       ),
-      viewBox: '0 0 3000 3163',
+      viewBox: "0 0 3000 3163",
     },
   },
-})
+});
 
-export default theme
+export default theme;

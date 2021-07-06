@@ -1151,6 +1151,11 @@
     ts-node "^9"
     tslib "^2"
 
+"@fontsource/syne@^4.4.5":
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/@fontsource/syne/-/syne-4.4.5.tgz#8abcf86f61f966b4dec696310109317431637cc5"
+  integrity sha512-YK1dF3I+HVmqnLARwq1pptG420jjhtS6xzFLAO6/8ap8XDIfp2wiCpenkkVenXMGzKBto0S7+D3pzvVCQ/q77Q==
+
 "@graphql-codegen/cli@1.21.4":
   version "1.21.4"
   resolved "https://registry.npmjs.org/@graphql-codegen/cli/-/cli-1.21.4.tgz"
