@@ -1,6 +1,7 @@
 import { extendTheme } from "@chakra-ui/react";
 import { createBreakpoints } from "@chakra-ui/theme-tools";
-import "@fontsource/syne";
+import "@fontsource/nunito";
+import "@fontsource/ibm-plex-sans";
 
 const breakpoints = createBreakpoints({
   sm: "40em",
@@ -11,8 +12,8 @@ const breakpoints = createBreakpoints({
 
 const theme = extendTheme({
   fonts: {
-    heading: "Syne",
-    body: "Syne",
+    heading: "IBM Plex Sans",
+    body: "IBM Plex Sans",
   },
   colors: {
     black: "#16161D",

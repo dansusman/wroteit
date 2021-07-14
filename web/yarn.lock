@@ -1151,10 +1151,15 @@
     ts-node "^9"
     tslib "^2"
 
-"@fontsource/syne@^4.4.5":
-  version "4.4.5"
-  resolved "https://registry.yarnpkg.com/@fontsource/syne/-/syne-4.4.5.tgz#8abcf86f61f966b4dec696310109317431637cc5"
-  integrity sha512-YK1dF3I+HVmqnLARwq1pptG420jjhtS6xzFLAO6/8ap8XDIfp2wiCpenkkVenXMGzKBto0S7+D3pzvVCQ/q77Q==
+"@fontsource/ibm-plex-sans@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/ibm-plex-sans/-/ibm-plex-sans-4.5.0.tgz#8cce99bcf18b85a36d40f7b2ec34006b511dd4b1"
+  integrity sha512-wwXLKo3Hz2XTsyaLaKMthIU7s4ILl6BMPYV4zNMB6jSOjqL0ryLmDGuDLhChF3EZupZqpQsmlCCeKYjJiwqNDw==
+
+"@fontsource/nunito@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/nunito/-/nunito-4.5.0.tgz#a264413e974ee12ec689ec008bf8ecb41724cec7"
+  integrity sha512-bjj6j4zmnDhQ7kfga5E8W98GzUOn478Es2bipSs2xc1lB8pJKrQh9V9CgxcvSeLfGL2Ic+0tvUfhiOsOHLtkUQ==
 
 "@graphql-codegen/cli@1.21.4":
   version "1.21.4"

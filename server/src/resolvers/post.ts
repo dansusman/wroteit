@@ -1,4 +1,3 @@
-import { Upvote } from "../entities/Upvote";
 import { MyContext } from "src/types";
 import {
   Arg,
@@ -16,6 +15,8 @@ import {
 } from "type-graphql";
 import { getConnection } from "typeorm";
 import { Post } from "../entities/Post";
+import { Upvote } from "../entities/Upvote";
+import { User } from "../entities/User";
 import { isAuth } from "../middleware/isAuth";
 
 @InputType()
@@ -40,6 +41,25 @@ export class PostResolver {
   briefText(@Root() root: Post) {
     return root.text.slice(0, 50);
   }
+  @FieldResolver(() => User)
+  originalPoster(@Root() post: Post, @Ctx() { userLoader }: MyContext) {
+    return userLoader.load(post.originalPosterId);
+  }
+
+  @FieldResolver(() => Int, { nullable: true })
+  async voteStatus(
+    @Root() post: Post,
+    @Ctx() { upvoteLoader, req }: MyContext
+  ) {
+    if (!req.session.userId) {
+      return null;
+    }
+    const upvote = await upvoteLoader.load({
+      postId: post.id,
+      userId: req.session.userId,
+    });
+    return upvote ? upvote.value : null;
+  }
 
   @Mutation(() => Boolean)
   @UseMiddleware(isAuth)
@@ -60,14 +80,16 @@ export class PostResolver {
           `
           update upvote
           set value = $1
-          where "postId" = $2 and "userId" = $3`,
+          where "postId" = $2 and "userId" = $3
+          `,
           [realValue, postId, userId]
         );
         await tm.query(
           `
           update post
           set points = points + $1
-          where id = $2`,
+          where id = $2
+          `,
           [2 * realValue, postId]
         );
       });
@@ -84,7 +106,8 @@ export class PostResolver {
         await tm.query(
           `update post
           set points = points + $1
-          where id = $2`,
+          where id = $2
+          `,
           [realValue, postId]
         );
       });
@@ -95,40 +118,20 @@ export class PostResolver {
   @Query(() => PaginatedPosts)
   async posts(
     @Arg("limit", () => Int) limit: number,
-    @Arg("cursor", () => String, { nullable: true }) cursor: string | null,
-    @Ctx() { req }: MyContext
+    @Arg("cursor", () => String, { nullable: true }) cursor: string | null
   ): Promise<PaginatedPosts> {
     const realLimit = Math.min(50, limit);
     const realLimitPlusOne = realLimit + 1;
     const replacements: any[] = [realLimitPlusOne];
 
-    if (req.session.userId) {
-      replacements.push(req.session.userId);
-    }
-
-    let cursorIndex = 3;
     if (cursor) {
       replacements.push(new Date(parseInt(cursor)));
-      cursorIndex = replacements.length;
     }
     const posts = await getConnection().query(
       `
-    select p.*,
-    json_build_object(
-      'id', u.id,
-      'username', u.username,
-      'email', u.email,
-      'createdAt', u."createdAt",
-      'updatedAt', u."updatedAt"
-      ) "originalPoster",
-    ${
-      req.session.userId
-        ? '(select value from upvote where "userId" = $2 and "postId" = p.id) "voteStatus"'
-        : 'null as "voteStatus"'
-    }
+    select p.*
     from post p
-    inner join public.user u on u.id = p."originalPosterId"
-    ${cursor ? `where p."createdAt" < $${cursorIndex}` : ""}
+    ${cursor ? `where p."createdAt" < $2` : ""}
     order by p."createdAt" DESC
     limit $1
     `,
@@ -142,7 +145,7 @@ export class PostResolver {
 
   @Query(() => Post, { nullable: true })
   post(@Arg("id", () => Int) id: number): Promise<Post | undefined> {
-    return Post.findOne(id, { relations: ["originalPoster"] });
+    return Post.findOne(id);
   }
 
   @Mutation(() => Post)
@@ -158,20 +161,24 @@ export class PostResolver {
   }
 
   @Mutation(() => Post, { nullable: true })
+  @UseMiddleware(isAuth)
   async updatePost(
-    @Arg("id") id: number,
-    @Arg("title", () => String, { nullable: true }) title: string
+    @Arg("id", () => Int) id: number,
+    @Arg("text") text: string,
+    @Arg("title", () => String, { nullable: true }) title: string,
+    @Ctx() { req }: MyContext
   ): Promise<Post | null> {
-    const post = await Post.findOne(id);
-    if (!post) {
-      // no post found
-      return null;
-    }
-    if (typeof title !== "undefined") {
-      // post found with title, update post
-      await Post.update({ id }, { title });
-    }
-    return post;
+    const result = await getConnection()
+      .createQueryBuilder()
+      .update(Post)
+      .set({ title, text })
+      .where('id = :id and "originalPosterId" = :originalPosterId', {
+        id,
+        originalPosterId: req.session.userId,
+      })
+      .returning("*")
+      .execute();
+    return result.raw[0];
   }
 
   @Mutation(() => Boolean)
@@ -180,14 +187,15 @@ export class PostResolver {
     @Arg("id", () => Int) id: number,
     @Ctx() { req }: MyContext
   ): Promise<boolean> {
-    const post = await Post.findOne(id);
-    if (!post) {
-      return false;
-    }
-    if (post.originalPosterId !== req.session.userId) {
-      throw new Error("not auhorized to perform this action");
-    }
-    await Upvote.delete({ postId: id });
+    // without SQL cascading
+    // const post = await Post.findOne(id);
+    // if (!post) {
+    //   return false;
+    // }
+    // if (post.originalPosterId !== req.session.userId) {
+    //   throw new Error("not auhorized to perform this action");
+    // }
+    // await Upvote.delete({ postId: id });
     await Post.delete({ id, originalPosterId: req.session.userId });
     return true;
   }

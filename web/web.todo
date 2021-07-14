@@ -1,3 +1,5 @@
 
 ☐ Post validation (might be server side)
 ☐ Hide router query params in URL
+
+☐ change color of error (accessibility) -- e.g. "username cannot contain an @" on register page
