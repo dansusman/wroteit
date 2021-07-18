@@ -22,9 +22,9 @@ export const UpvoteSection: React.FC<UpvoteSectionProps> = ({ post }) => {
         icon={<ChevronUpIcon />}
         isRound
         isDisabled={post.voteStatus === 1}
-        onClick={() => {
+        onClick={async () => {
           setLoadingState("upvote-load");
-          vote({
+          await vote({
             postId: post.id,
             value: 1,
           });
@@ -40,9 +40,9 @@ export const UpvoteSection: React.FC<UpvoteSectionProps> = ({ post }) => {
         icon={<ChevronDownIcon />}
         isDisabled={post.voteStatus === -1}
         isRound
-        onClick={() => {
+        onClick={async () => {
           setLoadingState("downvote-load");
-          vote({
+          await vote({
             postId: post.id,
             value: -1,
           });

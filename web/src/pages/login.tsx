@@ -1,18 +1,26 @@
-import React from "react";
+import {
+  Box,
+  Button,
+  Flex,
+  Link,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import { Box, Button, Flex, Link } from "@chakra-ui/react";
-import { Wrapper } from "../components/Wrapper";
-import { InputField } from "../components/InputField";
-import { useLoginMutation } from "../generated/graphql";
-import { toErrorMap } from "../utils/toErrorMap";
-import { useRouter } from "next/router";
 import { withUrqlClient } from "next-urql";
-import { createUrqlClient } from "../utils/createUrqlClient";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
+import React from "react";
+import { InputField } from "../components/InputField";
+import { Wrapper } from "../components/Wrapper";
+import { useLoginMutation } from "../generated/graphql";
+import { createUrqlClient } from "../utils/createUrqlClient";
+import { toErrorMap } from "../utils/toErrorMap";
 
 interface registerProps {}
 
 const Login: React.FC<registerProps> = ({}) => {
+  const color = useColorModeValue("tomato", "orange");
   const router = useRouter();
   const [, login] = useLoginMutation();
   return (
@@ -36,6 +44,7 @@ const Login: React.FC<registerProps> = ({}) => {
         {({ isSubmitting }) => (
           <Form>
             <InputField
+              autoFocus
               name="usernameOrEmail"
               placeholder="username or email address"
               label="Username or Email Address"
@@ -64,6 +73,14 @@ const Login: React.FC<registerProps> = ({}) => {
           </Form>
         )}
       </Formik>
+      <Text mt={3}>
+        New to wroteit?
+        <NextLink href="/register">
+          <Link ml={1} fontWeight="bold" color={color}>
+            Sign up
+          </Link>
+        </NextLink>
+      </Text>
     </Wrapper>
   );
 };

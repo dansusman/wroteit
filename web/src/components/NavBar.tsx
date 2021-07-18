@@ -1,10 +1,12 @@
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
   Flex,
-  Link,
+  IconButton,
+  Tooltip,
+  useColorMode,
   useColorModeValue,
-  VStack,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React from "react";
@@ -20,7 +22,9 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
     pause: isServer(),
   });
 
+  const { colorMode, toggleColorMode } = useColorMode();
   const bg = useColorModeValue("lightblue", "gray.500");
+  const icon = useColorModeValue(<MoonIcon />, <SunIcon />);
 
   let body = null;
 
@@ -30,6 +34,20 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
     // not logged in
     body = (
       <>
+        <Tooltip
+          hasArrow
+          closeOnClick={true}
+          label="Toggle Dark/Light Mode"
+          openDelay={300}
+        >
+          <IconButton
+            icon={icon}
+            aria-label={`Switch to {} mode`}
+            mr={3}
+            onClick={toggleColorMode}
+            colorScheme="telegram"
+          />
+        </Tooltip>
         <NextLink href="/login">
           <Button mr={3} colorScheme="orange">
             login

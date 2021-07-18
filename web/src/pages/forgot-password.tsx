@@ -1,4 +1,4 @@
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, FormControl, FormHelperText } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
 import React, { useState } from "react";
@@ -23,24 +23,32 @@ const ForgotPassword: React.FC<{}> = ({}) => {
           complete ? (
             <Box>Email has been sent!</Box>
           ) : (
-            <Form>
-              <Box mt={4}>
-                <InputField
-                  name="email"
-                  placeholder="email"
-                  label="Email"
-                  type="email"
-                />
-              </Box>
-              <Button
-                mt={4}
-                type="submit"
-                isLoading={isSubmitting}
-                colorScheme="orange"
-              >
-                forgot password
-              </Button>
-            </Form>
+            <FormControl>
+              <Form>
+                <Box mt={4}>
+                  <InputField
+                    name="email"
+                    placeholder="email"
+                    label="Email"
+                    type="email"
+                  />
+                </Box>
+                <Button
+                  disabled
+                  mt={4}
+                  type="submit"
+                  isLoading={isSubmitting}
+                  colorScheme="orange"
+                >
+                  forgot password
+                </Button>
+                <FormHelperText mt={4}>
+                  Emailing Service is not currently active. This feature is in
+                  development. Please make a new account if you have forgotten
+                  your account credentials.
+                </FormHelperText>
+              </Form>
+            </FormControl>
           )
         }
       </Formik>

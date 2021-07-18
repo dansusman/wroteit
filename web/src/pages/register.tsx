@@ -1,6 +1,7 @@
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, Link, Text, useColorModeValue } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { withUrqlClient } from "next-urql";
+import NextLink from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { InputField } from "../components/InputField";
@@ -12,6 +13,7 @@ import { toErrorMap } from "../utils/toErrorMap";
 interface registerProps {}
 
 const Register: React.FC<registerProps> = ({}) => {
+  const color = useColorModeValue("blue", "orange");
   const router = useRouter();
   const [, register] = useRegisterMutation();
   return (
@@ -31,6 +33,7 @@ const Register: React.FC<registerProps> = ({}) => {
         {({ isSubmitting }) => (
           <Form>
             <InputField
+              autoFocus
               name="username"
               placeholder="username"
               label="Username"
@@ -62,6 +65,14 @@ const Register: React.FC<registerProps> = ({}) => {
           </Form>
         )}
       </Formik>
+      <Text mt={3}>
+        Already have an account?
+        <NextLink href="/login">
+          <Link ml={1} fontWeight="bold" color={color}>
+            Log in
+          </Link>
+        </NextLink>
+      </Text>
     </Wrapper>
   );
 };

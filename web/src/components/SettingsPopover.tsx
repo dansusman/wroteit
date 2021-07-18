@@ -11,6 +11,7 @@ import {
   PopoverHeader,
   PopoverTrigger,
   Portal,
+  Tooltip,
   useColorMode,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
@@ -23,7 +24,7 @@ interface SettingsPopoverProps {}
 export const SettingsPopover: React.FC<SettingsPopoverProps> = ({}) => {
   const router = useRouter();
   const [{ fetching: logoutFetching }, logout] = useLogoutMutation();
-  const [{ data, fetching }] = useMeQuery({
+  const [{ data }] = useMeQuery({
     pause: isServer(),
   });
   const { colorMode, toggleColorMode } = useColorMode();
@@ -38,18 +39,31 @@ export const SettingsPopover: React.FC<SettingsPopoverProps> = ({}) => {
       <Portal>
         <PopoverContent>
           <PopoverArrow />
-          <PopoverHeader fontWeight="bold" border="0" cursor="default">
+          <PopoverHeader
+            flex={"true"}
+            mr={5}
+            fontWeight="bold"
+            border="0"
+            cursor="default"
+          >
             Logged in as: {data?.me?.username}
           </PopoverHeader>
           <PopoverCloseButton />
           <PopoverBody>
             <Flex p={2}>
-              <IconButton
-                icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-                aria-label={`Switch to {} mode`}
-                mr={3}
-                onClick={toggleColorMode}
-              />
+              <Tooltip
+                hasArrow
+                closeOnClick={true}
+                label="Toggle Dark/Light Mode"
+                openDelay={300}
+              >
+                <IconButton
+                  icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+                  aria-label={`Switch to {} mode`}
+                  mr={3}
+                  onClick={toggleColorMode}
+                />
+              </Tooltip>
               <Button
                 colorScheme="orange"
                 onClick={async () => {

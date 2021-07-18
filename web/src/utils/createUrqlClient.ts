@@ -1,4 +1,4 @@
-import { cacheExchange, Resolver, Cache } from "@urql/exchange-graphcache";
+import { Cache, cacheExchange, Resolver } from "@urql/exchange-graphcache";
 import Router from "next/router";
 import {
   dedupExchange,
@@ -27,7 +27,7 @@ const errorExchange: Exchange =
       forward(ops$),
       tap(({ error }) => {
         if (error?.message.includes("Authentication Failed")) {
-          Router.replace("/login");
+          Router.push("/login");
         }
       })
     );
@@ -85,7 +85,7 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
     cookie = ctx?.req?.headers?.cookie;
   }
   return {
-    url: "http://localhost:4000/graphql",
+    url: process.env.NEXT_PUBLIC_API_URL as string,
     fetchOptions: {
       credentials: "include" as const,
       headers: cookie ? { cookie } : undefined,
