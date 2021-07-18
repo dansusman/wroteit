@@ -40,7 +40,16 @@ const Index = () => {
   return (
     <Layout>
       {!data && fetching ? (
-        <div>loading...</div>
+        <div
+          style={{
+            color: "currentColor",
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+          }}
+        >
+          loading...
+        </div>
       ) : (
         <Stack spacing={8}>
           {data!.posts.posts.map((p) =>

@@ -11,6 +11,18 @@ const breakpoints = createBreakpoints({
 });
 
 const theme = extendTheme({
+  components: {
+    Popover: {
+      parts: ["popper"],
+      baseStyle: (props) => ({
+        content: {
+          zIndex: 1,
+          maxW: props.width ? props.width : "xs",
+          w: "100%",
+        },
+      }),
+    },
+  },
   fonts: {
     heading: "IBM Plex Sans",
     body: "IBM Plex Sans",

@@ -16,7 +16,7 @@ export const UpvoteSection: React.FC<UpvoteSectionProps> = ({ post }) => {
   return (
     <Flex direction="column" justifyContent="center" alignItems="center" mr={4}>
       <IconButton
-        colorScheme={post.voteStatus === 1 ? "green" : "reddit"}
+        colorScheme={post.voteStatus === 1 ? "green" : "black"}
         variant={post.voteStatus === 1 ? "solid" : "ghost"}
         aria-label="Upvote Post"
         icon={<ChevronUpIcon />}
@@ -34,7 +34,7 @@ export const UpvoteSection: React.FC<UpvoteSectionProps> = ({ post }) => {
       />
       {post.points}
       <IconButton
-        colorScheme={post.voteStatus === -1 ? "red" : "reddit"}
+        colorScheme={post.voteStatus === -1 ? "red" : "black"}
         variant={post.voteStatus === -1 ? "solid" : "ghost"}
         aria-label="Downvote Post"
         icon={<ChevronDownIcon />}
