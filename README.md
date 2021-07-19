@@ -12,4 +12,4 @@ This clone is <strong>not</strong> intended to have all the functionality of the
 6. Create a New User
 7. Log in as an Existing User
 
-Check out the code in this repository, or view the website at wroteit.dansusman.dev.
+Check out the code in this repository, or view the website at https://wroteit.dansusman.dev.
