@@ -82,7 +82,8 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
               transform: "scale(1.05)",
             }}
             focusable="true"
-            boxSize="fit-content"
+            width="340"
+            height="120"
             viewBox="0 0 480 183"
           />
         </NextLink>
