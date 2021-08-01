@@ -49,12 +49,14 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
           />
         </Tooltip>
         <NextLink href="/login">
-          <Button mr={3} colorScheme="orange">
+          <Button width="4em" mr={3} colorScheme="orange">
             login
           </Button>
         </NextLink>
         <NextLink href="/register">
-          <Button colorScheme="orange">register</Button>
+          <Button width="4em" colorScheme="orange">
+            register
+          </Button>
         </NextLink>
       </>
     );
@@ -82,12 +84,12 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
               transform: "scale(1.05)",
             }}
             focusable="true"
-            width="340"
-            height="120"
+            width="8em"
+            height="4em"
             viewBox="0 0 480 183"
           />
         </NextLink>
-        <Box p={4} ml={"auto"}>
+        <Box p={2} ml={"auto"}>
           {body}
         </Box>
       </Flex>
