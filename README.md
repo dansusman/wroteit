@@ -13,8 +13,6 @@ This clone is **not** intended to have all the functionality of the real Reddit,
 7. Log in as an Existing User
 8. Forgot Password -- **Currently only working in development. To enable forgot password feature, a subscription to an Email Service would be required. This may be added in the future.**
 
-Check out the code in this repository, or view the website at https://wroteit.dansusman.dev.
-
 ### Disclaimer
 
 The website is not currently mobile responsive, and is most attractive on a computer screen. This project's focus is more heavily on the backend design than the frontend, but website responsivity may be implemented in the future.
